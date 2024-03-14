@@ -1,0 +1,166 @@
+{% load static %}
+{% load filter %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="{% static 'img/fav.png'%}">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Karma Shop</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://allyoucan.cloud/cdn/icofont/1.0.1/icofont.css" integrity="sha384-jbCTJB16Q17718YM9U22iJkhuGbS0Gd2LjaWb4YJEZToOPmnKDjySVa323U+W7Fv" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static "css/view_orders.css" %}">
+
+  </head>
+  <body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="osahan-account-page-left shadow-sm bg-white h-100">
+                    <div class="border-bottom p-4">
+                        <div class="osahan-user text-center">
+                            <div class="osahan-user-media">
+                                <img class="mb-3 rounded-pill shadow-sm mt-1" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="gurdeep singh osahan">
+                                <div class="osahan-user-media-body">
+                                    <h6 class="mb-2">{{ request.user | upper }}</h6>
+                                    <p class="mb-1">{{ name }}</p>
+                                    <p style="color:orange;">{{request.user.email }}</p>
+
+                                    <button style="background:none; border-color:grey;">
+                                        <p class="mb-0 text-black font-weight-bold">
+                                            <a class="text-primary" href="{% url "home" %}">
+                                                Home Page <i class="fa-solid fa-arrow-left"></i>
+                                            </a>
+                                        </p>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane  fade  active show" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                            <h4 class="font-weight-bold mt-0 mb-4">All Orders</h4>
+                            <div class="bg-white card mb-4 order-list shadow-sm">
+                                
+                                {% if not is_order_list_empty %}
+                                    {% for order in orders %}
+                                        <div class="gold-members p-4">
+                                            <a href="#">
+                                            </a>
+                                            <div class="media">
+                                                <a href="#">
+                                                    <img class="mr-4" src="{% static "order.jpg" %}" alt="Generic placeholder image">
+                                                </a>
+                                                <div class="media-body">
+                                                    <a href="#">
+                                                        <span class="float-right text-info">{{ order.order_date }} <i class="icofont-check-circled text-success"></i></span>
+                                                    </a>
+                                                    <h6 class="mb-2">
+                                                        <a href="#"></a>
+                                                        <a href="{% url "view_single_order" order.order_id %}" class="text-black">Order ID: {{ order.order_id }}</a>
+                                                    </h6>
+                                                    <p class="text-gray mb-1"><i class="icofont-location-arrow"></i> {{ order.address }}, {{ order.pin_code }}
+                                                    </p>
+                                                    <p class="text-gray mb-3"><i class="icofont-list"></i> ORDER #{{ order.order_id }} <i class="icofont-clock-time ml-2"></i>
+                                                        {{ order.order_date|get_weekday }}, {{ order.order_date }}
+                                                    </p>
+
+                                                    <p class="text-dark">ORDERED ITEMS..</p>
+                                                    
+                                                    {% for shoe_item in order.all_shoes|get_shoes_from_binary %}
+                                                        <a href="{% url "display_each_shoe" shoe_item.shoe.pk %}" class="text-black">{{ shoe_item.shoe.name }}</a>
+                                                        <hr>
+                                                            
+                                                    {% endfor %}
+                                                    
+                                                
+                                                    {% comment %} <p class="text-dark">{{ order.all_shoes | get_shoes_from_binary }}</p> {% endcomment %}
+                                                    
+                                                    <div class="float-right">
+                                                        <a class="btn btn-sm btn-outline-primary" href="{% url "view_single_order" order.order_id %}">
+                                                            <i class="icofont-headphone-alt"></i>
+                                                            VIEW ORDER
+                                                        </a>
+
+                                                        <a class="btn btn-sm btn-primary" href="#">
+                                                            <i class="icofont-refresh"></i> 
+                                                                REORDER
+                                                        </a>
+
+                                                    </div>
+                                                    <p class="mb-0 text-black text-primary pt-2"><span class="text-black font-weight-bold"> Total Paid:</span> ₹{{ order.order_value }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+                                
+                                {% else %}
+                                    
+                                    <div class="gold-members p-4">
+                                        <a href="#">
+                                        </a>
+                                        <div class="media">
+                                            <a href="#">
+                                                <img class="mr-4" src="{% static "no_order.png" %}" alt="Generic placeholder image">
+                                            </a>
+                                            <div class="media-body">
+                                                <h6 class="mb-2">
+                                                    <a href="#"></a>
+                                                    <a href="#" class="text-black">No Order To Display.</a>
+                                                </h6>
+                                                <p class="text-dark">There are no orders to display right now.
+                                                <p>
+                                                    <a href="" class="text-black">Wanna place an order instead.</a>
+                                                </p>
+                                                <hr>
+                                                <div class="float-right">
+                                                    <a class="btn btn-sm btn-outline-primary" href="{% url "home" %}"><i class="icofont-headphone-alt"></i> SHOP NOW</a>
+                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

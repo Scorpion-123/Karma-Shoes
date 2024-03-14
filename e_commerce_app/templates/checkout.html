@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Start Banner Area -->
+<section class="banner-area organic-breadcrumb">
+    <div class="container">
+        <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+            <div class="col-first">
+                <h1>Checkout</h1>
+                <nav class="d-flex align-items-center">
+                    <a href="{% url "home" %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                    <a href="single-product.html">Checkout</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Banner Area -->
+
+<!--================Checkout Area =================-->
+<section class="checkout_area section_gap">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h3>Billing Details</h3>
+
+                    <form class="row contact_form" method="post" novalidate="novalidate">
+                        {% csrf_token %}
+
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="first" name="first_name" value="{{ first_name }}" readonly placeholder="Your First name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your First name'" required>
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="last" name="last_name" value="{{ last_name }}" readonly placeholder="Your Last name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Last name'" required>
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ email }}" readonly placeholder="Your Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address'" required>
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="number" name="number" placeholder="Your Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Phone Number'" required>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <select class="country_select" name="country">
+                                <option value="1">India</option>
+                                <option value="2">Dubai</option>
+                                <option value="3">USA</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="add1" name="add1" placeholder="Your Permanent Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Permanent Address'" required>
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Your City" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your City'" required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" required>
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <div class="creat_account">
+                                <h3>Shipping Details</h3>
+                            </div>
+                                <h4>Order Instruction's</h4>
+                                <p style="color: orange;">Some Specific Instructions for our delivery partner.</p>
+                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+                        </div>
+                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="order_box">
+                        <h2>
+                            Your Order 
+                            
+                            <button style="margin-left: 30px; background-color: orange;">
+                                <a href="{% url "view_cart" %}" style="text-decoration: none; color:white;">
+                                    Back To Cart <i class="fa-solid fa-arrow-left"></i>
+                                </a>
+                            </button>
+
+                        </h2>
+
+                        <ul class="list">
+                            <li><a href="#" style="color:orange;">Product <span>Total</span></a></li>
+    
+                            {% for cart_item, discount_price in all_shoes_price %}
+                                <li><a href="#">{{ cart_item.name }} <span style="color:orange;" class="last">₹{{ discount_price }}</span></a></li>
+                            {% endfor %}
+
+                        </ul>
+                        <hr style="margin:0; padding:3px;">
+                        <ul class="list list_2">
+
+                            {% if coupon_status %}
+                                <li><a style="color:orange;" href="#">Coupon Applied <span>{{ coupon_code }}</span></a></li>
+                                <hr style="margin:0; padding:3px;">
+                            {% endif %}
+
+                            <li><a style="color:orange;" href="#">Subtotal <span>₹{{ subtotal }}</span></a></li>
+                            <li><a href="#">Shipping <span>Flat rate: ₹{{ shipping }}</span></a></li>
+                            <li><a href="#">Total <span>₹{{ total }}</span></a></li>
+                        </ul>
+                        <div class="payment_item">
+                            <div class="radion_btn">
+                                <input type="radio" id="f-option5" name="selector">
+                                <label for="f-option5">Check payments</label>
+                                <div class="check"></div>
+                            </div>
+                            <p>Please send a check to Store Name, Store Street, Store Town, Store State / County,
+                                Store Postcode.</p>
+                        </div>
+                        <div class="payment_item active">
+                            <div class="radion_btn">
+                                <input type="radio" id="f-option6" name="selector">
+                                <label for="f-option6">Paypal </label>
+                                <img src="{% static 'img/product/card.jpg' %}" alt="">
+                                <div class="check"></div>
+                            </div>
+                            <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
+                                account.</p>
+                        </div>
+                        <div class="creat_account">
+                            <input type="checkbox" id="f-option4" name="selector">
+                            <label for="f-option4">I’ve read and accept the </label>
+                            <a href="#">terms & conditions*</a>
+                        </div>
+                        <button type="submit" class="primary-btn" style="border: none;">Proceed to Paypal</button>
+                    </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================End Checkout Area =================-->
+
+{% endblock body %}

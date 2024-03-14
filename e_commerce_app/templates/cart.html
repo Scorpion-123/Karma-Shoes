@@ -1,0 +1,416 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon-->
+    <link rel="shortcut icon" href="{% static 'img/fav.png'%}">
+    <!-- Author Meta -->
+    <meta name="author" content="CodePixar">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+    <meta charset="UTF-8">
+    <!-- Site Title -->
+    <title>Karma Shop</title>
+
+    <!--
+            CSS
+            ============================================= -->
+    <link rel="stylesheet" href="{% static 'css/linearicons.css'%}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css'%}">
+    <link rel="stylesheet" href="{% static 'css/themify-icons.css'%}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css'%}">
+    <link rel="stylesheet" href="{% static 'css/nouislider.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static 'css/main.css'%}">
+</head>
+
+<body>
+    
+    {% comment %} for displaying the messages. {% endcomment %}
+	{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>{{ message.tags }}</strong> {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Start Header Area -->
+	<header class="header_area sticky-header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="{% url "home" %}"><img src="{% static 'img/logo.png'%}" alt=""></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item active"><a class="nav-link" href="{% url "home" %}">Home</a></li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Shop</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
+									<li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
+									<li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+									<li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Blog</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+									<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+								</ul>
+							</li>
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">Pages</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+									<li class="nav-item"><a class="nav-link" href="tracking.html">Tracking</a></li>
+									<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>1
+
+								</ul>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="{% url "orders" %}">Orders</a></li>
+
+							{% comment %} This is used to display the username of the user if he's logged In. {% endcomment %}
+							{% if request.user.is_authenticated %}
+								<li class="nav-item"><div class='nav-link'>Username : {{ request.user }}</div></li>
+							{% endif %}
+
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li class="nav-item"><a href="{% url "view_cart" %}" class="cart"><span class="ti-bag"></span></a></li>
+
+							{% if not request.user.is_authenticated %}
+								<li class="nav-item"><a href="{% url "login" %}" class="cart"><span class="ti-user"></span></a></li>
+							{% else %}
+								<li class="nav-item"><a href="{% url "logout" %}" class="cart"><span class="ti-power-off"></span></a></li>
+							{% endif %}
+
+							<li class="nav-item">
+								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+		<div class="search_input" id="search_input_box">
+			<div class="container">
+				<form class="d-flex justify-content-between">
+					<input type="text" class="form-control" id="search_input" placeholder="Search Here">
+					<button type="submit" class="btn"></button>
+					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!-- End Header Area -->
+
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Shopping Cart</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="{% url "home" %}">Home<span class="lnr lnr-arrow-right"></span></a>
+                        <a href="category.html">Cart</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+
+    <!--================Cart Area =================-->
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Original Price</th>
+                                <th scope="col">After Discount</th>
+                                <th scope="col">Remove Item</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% if not is_cart_empty %}
+
+                                {% for cart, discounted_price, discount_percentage in cart_items %}
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img src="{{ cart.shoe.image.url }}" height="100" width="100" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <p>{{ cart.shoe.name }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h6 style="text-decoration: line-through; color: #cccccc;">₹{{ cart.shoe.price }}</h6>
+                                            <span style="color: green;"> {{ discount_percentage }}% off</span>
+                                        </td>
+                                        <td>
+                                            <h5>₹{{ discounted_price }}</h5>
+                                        </td>
+                                        <td>
+                                            <a class="primary-btn" href="{% url "remove_item_from_cart" cart.id %}">Remove</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% else %}
+                                    <tr>
+                                        <td>
+                                            <div class="media">
+                                                <div class="d-flex">
+                                                    <img src="{% static "404.png" %}" height="100" width="100" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4 style="color: orange;">Cart is Empty..</h4>
+                                                    <h5>I'm not a cart element you can't remove me.</h5>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <h4 style="color: orange;">NA</h4>
+                                        </td>
+                                        <td>
+                                            <h4 style="color: orange;">NA</h4>
+                                        </td>
+                                        <td>
+                                                <a class="primary-btn" href="" disabled>Remove</a>
+                                        </td>
+                                    </tr>
+                                
+                            {% endif %}
+
+                            <tr class="bottom_button">
+                                <td>
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <form method='post'>
+                                        {% csrf_token %}
+
+                                        <div class="cupon_text d-flex align-items-center">
+
+                                            {% if not coupon_applied %}
+                                                <input type="text" name='coupon' style='text-transform: uppercase' placeholder="Coupon Code" required>
+                                                <button type='submit' class="primary-btn" style="border:none;" >Apply</button>
+                                                <button type='submit' class="gray_btn" disabled>Close Coupon</button>
+
+                                            {% else %}
+                                                <input type="text" name='coupon' style='text-transform: uppercase' value="Coupon : {{ current_coupon }}" placeholder="Coupon Code" readonly>
+                                                <button type='submit' class="primary-btn" style="border:none;" disabled>Apply</button>
+                                                <button type='submit' class="gray_btn">Close Coupon</button>
+
+                                            {% endif %}
+
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <h5>Subtotal</h5>
+                                </td>
+                                <td>
+                                    <h5>₹{{ total }}</h5>
+                                </td>
+                            </tr>
+                            <tr class="shipping_area">
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <h5>Shipping</h5>
+                                </td>
+                                <td>
+                                    <div class="shipping_box">
+                                        <ul class="list">
+
+                                            {% if not free_shipping %}
+                                                <li>Shipping <span style="color: orange;">Charge</span> : ₹{{ shipping_charge }}</li>
+                                            {% else %}
+                                                <li>Free <span>Shipping </span></li>
+                                            {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="out_button_area">
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+
+                                </td>
+                                <td>
+                                    <div class="checkout_btn_inner d-flex align-items-center">
+                                        <a class="gray_btn" href="{% url "home" %}">Continue Shopping</a>
+
+                                        {% if is_cart_empty %}
+                                            <a style="pointer-events: none;" class="primary-btn" href="{% url "checkout" %}">Proceed to checkout</a>
+                                        {% else %}
+                                            <a class="primary-btn" href="{% url "checkout" %}">Proceed to checkout</a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Cart Area =================-->
+
+    <!-- start footer Area -->
+    <footer class="footer-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>About Us</h6>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut labore dolore
+                            magna aliqua.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4  col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Newsletter</h6>
+                        <p>Stay update with our latest</p>
+                        <div class="" id="mc_embed_signup">
+
+                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="form-inline">
+
+                                <div class="d-flex flex-row">
+
+                                    <input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Enter Email '" required="" type="email">
+
+
+                                    <button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right"
+                                            aria-hidden="true"></i></button>
+                                    <div style="position: absolute; left: -5000px;">
+                                        <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value=""
+                                            type="text">
+                                    </div>
+
+                                    <!-- <div class="col-lg-4 col-md-4">
+													<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+												</div>  -->
+                                </div>
+                                <div class="info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3  col-md-6 col-sm-6">
+                    <div class="single-footer-widget mail-chimp">
+                        <h6 class="mb-20">Instragram Feed</h6>
+                        <ul class="instafeed d-flex flex-wrap">
+                            <li><img src="{% static 'img/i1.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i2.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i3.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i4.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i5.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i6.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i7.jpg'%}" alt=""></li>
+                            <li><img src="{% static 'img/i8.jpg'%}" alt=""></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6">
+                    <div class="single-footer-widget">
+                        <h6>Follow Us</h6>
+                        <p>Let us be social</p>
+                        <div class="footer-social d-flex align-items-center">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <a href="{% url "home" %}" target="_blank"> Karma | </a> made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="{% url "home" %}" target="_blank">Ankit Dey</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</p>
+			</div>
+		</div>
+    </footer>
+    <!-- End footer Area -->
+
+    <script src="{% static 'js/vendor/jquery-2.2.4.min.js'%}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	 crossorigin="anonymous"></script>
+	<script src="{% static 'js/vendor/bootstrap.min.js'%}"></script>
+	<script src="{% static 'js/jquery.ajaxchimp.min.js'%}"></script>
+	<script src="{% static 'js/jquery.nice-select.min.js'%}"></script>
+	<script src="{% static 'js/jquery.sticky.js'%}"></script>
+	<script src="{% static 'js/nouislider.min.js'%}"></script>
+	<script src="{% static 'js/countdown.js'%}"></script>
+	<script src="{% static 'js/jquery.magnific-popup.min.js'%}"></script>
+	<script src="{% static 'js/owl.carousel.min.js'%}"></script>
+	<!--gmaps Js-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+	<script src="{% static 'js/gmaps.min.js'%}"></script>
+	<script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>
